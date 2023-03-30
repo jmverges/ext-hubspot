@@ -16,4 +16,8 @@ return [
         'class' => \T3G\Hubspot\Command\ConnectionTestCommand::class,
         'schedulable' => false,
     ],
+    'hubspot:importctas' => [
+        'class' => \T3G\Hubspot\Command\ImportCtasCommand::class,
+        'schedulable' => false,
+    ],
 ];

@@ -50,6 +50,9 @@
             <trans-unit id="tx_hubspot_cta">
                 <source>HubSpot Call To Action</source>
             </trans-unit>
+            <trans-unit id="tx_hubspot_cta.hubspot_guid">
+                <source>HubSpot GUID</source>
+            </trans-unit>
             <trans-unit id="tx_hubspot_cta.name">
                 <source>Name</source>
             </trans-unit>

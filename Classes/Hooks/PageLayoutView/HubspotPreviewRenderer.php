@@ -13,6 +13,7 @@ namespace T3G\Hubspot\Hooks\PageLayoutView;
 use T3G\Hubspot\Domain\Repository\Hubspot\FormRepository;
 use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -40,6 +41,10 @@ class HubspotPreviewRenderer implements PageLayoutViewDrawItemHookInterface
         if ($row['CType'] === 'hubspot_form') {
             $drawItem = false;
             $this->renderHubspotFormPreview($itemContent, $row);
+        }
+        if ($row['CType'] === 'hubspot_cta') {
+            $drawItem = false;
+            $this->renderHubspotCtaPreview($itemContent, $row);
         }
     }
 
@@ -79,6 +84,34 @@ class HubspotPreviewRenderer implements PageLayoutViewDrawItemHookInterface
             $itemContent .= '<p><strong>Fields:</strong> ' . implode(', ', $fields) . '</p>';
         } else {
             $itemContent .= '<div class="callout-warning">No form selected!</div>';
+        }
+    }
+
+    /**
+     * Renders the hubspot form preview.
+     *
+     * @param string &$itemContent
+     * @param array &$row
+     */
+    protected function renderHubspotCtaPreview(string &$itemContent, array &$row)
+    {
+        if (!empty($row['hubspot_cta'])) {
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getQueryBuilderForTable('tx_hubspot_cta');
+            $result = $queryBuilder
+                ->select('hubspot_guid', 'name')
+                ->from('tx_hubspot_cta')
+                ->where(
+                    $queryBuilder->expr()->eq('uid', $row['hubspot_cta'])
+                )
+                ->execute()->fetchAllAssociative();
+            if(count($result)){
+                $result = $result[0];
+                $itemContent .= '<p><strong>Hubspot CTA NAME:</strong> <br />' . $result['name'] . '</p>';
+                $itemContent .= '<p><strong>Hubspot Guid:</strong> <br />' . $result['hubspot_guid'] . '</p>';
+            }
+        } else {
+            $itemContent .= '<div class="callout-warning">No CTA selected!</div>';
         }
     }
 }

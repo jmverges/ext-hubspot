@@ -9,3 +9,9 @@ services:
             - name: 'hubspot.synchronizeContacts'
               command: 'hubspot:contactsync'
               schedulable: true
+
+  T3G\Hubspot\Command\ImportCtasCommand:
+    tags:
+      - name: 'console.command'
+        command: 'hubspot:importctas'
+        schedulable: false

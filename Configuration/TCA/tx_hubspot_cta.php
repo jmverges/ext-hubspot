@@ -46,7 +46,7 @@ return [
         '0' => [
             'showitem' =>
                 '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,'
-                . 'name, hubspot_cta_code,'
+                . 'hubspot_updated_at, hubspot_guid, name, hubspot_cta_code,'
                 . '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,'
                 . '    hidden,'
                 . '    --palette--;;access,'
@@ -133,12 +133,32 @@ return [
                 ],
             ],
         ],
+        'hubspot_updated_at' => [
+            'exclude' => true,
+            'label' => 'Hubspot Updated at',
+            'config' => [
+                'type' => 'input',
+                'renderType' => 'input',
+                'size' => 16,
+                'eval' => 'number',
+                'default' => 0,
+            ],
+        ],
+        'hubspot_guid' => [
+            'exclude' => false,
+            'label' => 'LLL:EXT:hubspot/Resources/Private/Language/locallang_db.xlf:tx_hubspot_cta.hubspot_guid',
+            'config' => [
+                'type' => 'input',
+                'size' => 36,
+                'eval' => 'trim,required',
+            ],
+        ],
         'name' => [
             'exclude' => false,
             'label' => 'LLL:EXT:hubspot/Resources/Private/Language/locallang_db.xlf:tx_hubspot_cta.name',
             'config' => [
                 'type' => 'input',
-                'size' => 30,
+                'size' => 255,
                 'eval' => 'trim,required',
             ],
         ],

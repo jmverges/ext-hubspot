@@ -34,6 +34,8 @@ CREATE TABLE tx_hubspot_cta (
 	starttime int(11) unsigned DEFAULT '0' NOT NULL,
 	endtime int(11) unsigned DEFAULT '0' NOT NULL,
 
+    hubspot_updated_at bigint(14) unsigned DEFAULT '0' NOT NULL,
+    hubspot_guid VARCHAR(36) DEFAULT '' NOT NULL,
 	name varchar(255) DEFAULT '' NOT NULL,
 	hubspot_cta_code text,
 

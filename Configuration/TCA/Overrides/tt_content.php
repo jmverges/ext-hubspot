@@ -36,7 +36,8 @@ call_user_func(function (string $extensionName, string $table) {
             'label' => 'LLL:EXT:hubspot/Resources/Private/Language/locallang_db.xlf:tt_content.hubspot_form',
             'config' => [
                 'type' => 'select',
-                'renderType' => 'selectSingle',
+                'renderType' => 'selectMultipleSideBySide',
+                'maxitems' => 1,
                 'items' => [
                     [
                         '',
@@ -52,7 +53,7 @@ call_user_func(function (string $extensionName, string $table) {
                 'type' => 'group',
                 'internal_type' => 'db',
                 'allowed' => 'tx_hubspot_cta',
-                'size' => '1',
+                'size' => '10',
                 'maxitems' => '1',
                 'minitems' => '0',
                 'default' => '0',

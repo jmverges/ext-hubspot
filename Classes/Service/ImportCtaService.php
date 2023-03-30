@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace T3G\Hubspot\Service;
 
@@ -16,7 +16,6 @@ class ImportCtaService
         $table = 'tx_hubspot_cta';
         $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
         $record = [
-            'pid' => static::getStoragePid(),
             'hubspot_updated_at' => $cta[0],
             'hubspot_guid' => $cta[1],
             'name' => $cta[2],
@@ -25,17 +24,18 @@ class ImportCtaService
 
 
         $uid = 'NEW123';
-        $databseRecord = $conn->select(['uid', 'hubspot_updated_at'], $table, [
-            'hubspot_guid' => $record['hubspot_guid'],
-            'pid' => static::getStoragePid()
+        $databaseRecord = $conn->select(['uid', 'hubspot_updated_at'], $table, [
+            'hubspot_guid' => $record['hubspot_guid']
         ])->fetchAllAssociative();
-        if (count($databseRecord) > 0) {
-            if ($databseRecord[0]['uid'] > 0) {
-                $uid = $databseRecord[0]['uid'];
-                if ($databseRecord[0]['hubspot_updated_at'] >= $cta[0] && $overwrite == false) {
+        if (count($databaseRecord) > 0) {
+            if ($databaseRecord[0]['uid'] > 0) {
+                $uid = $databaseRecord[0]['uid'];
+                if ($databaseRecord[0]['hubspot_updated_at'] >= $cta[0] && $overwrite == false) {
                     $process = false;
                 }
             }
+        } else {
+            $record['pid'] = static::getStoragePid(); //when creating get the PID from config and if not, don't set it
         }
 
         if ($process == true) {
@@ -44,9 +44,10 @@ class ImportCtaService
                     $uid => $record
                 ]
             ]);
+
             $result = $dataHandler->process_datamap();
 
-            if($result === false){
+            if ($result === false) {
                 return 'error';
             }
 
@@ -61,6 +62,7 @@ class ImportCtaService
         }
 
     }
+
     /**
      * @return int
      */

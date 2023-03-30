@@ -1,5 +1,5 @@
 # cat=storage; type=int+; label=LLL:EXT:omniapartners_contracts/Resources/Private/Language/ExtensionConfiguration/locallang.xlf:setting.storagePid
-storagePid = 16832
+storagePid = 49
 secret = 123123
 
 

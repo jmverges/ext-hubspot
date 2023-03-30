@@ -1,14 +1,14 @@
 services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-        public: false
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
 
-    T3G\Hubspot\Command\SynchronizeContactsCommand:
-        tags:
-            - name: 'hubspot.synchronizeContacts'
-              command: 'hubspot:contactsync'
-              schedulable: true
+  T3G\Hubspot\Command\SynchronizeContactsCommand:
+    tags:
+      - name: 'hubspot.synchronizeContacts'
+        command: 'hubspot:contactsync'
+        schedulable: true
 
   T3G\Hubspot\Command\ImportCtasCommand:
     tags:

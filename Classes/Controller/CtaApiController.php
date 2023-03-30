@@ -6,6 +6,7 @@ namespace T3G\Hubspot\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use T3G\Hubspot\CtaApiResponse;
 use T3G\Hubspot\Service\ImportCtaService;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\JsonResponse;
@@ -33,14 +34,22 @@ class CtaApiController
 
             $action = ImportCtaService::importCta($cta, $overwrite);
 
-            $response = new JsonResponse([$action => $cta], 200, [
+            $view = new CtaApiResponse();
+
+            return $view->render(['action' => $action,
+                'cta' => [
+                    'updatedAt' => $cta[0],
+                    'uid' => $cta[1],
+                    'name' => $cta[2],
+                    'code' => $cta[3],
+                ]
+            ], 200, [
                 'Access-Control-Allow-Origin' => '*',
                 'Access-Control-Allow-Credentials' => 'true',
                 'Access-Control-Allow-Methods' => 'OPTIONS, GET, POST',
                 'Access-Control-Allow-Headers' => 'Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control',
             ]);
 
-            return $response;
         }
         return new JsonResponse(['error' => 'invalid secret token']);
     }

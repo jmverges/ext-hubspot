@@ -45,6 +45,10 @@ class ImportCtaService
                 ]
             ]);
 
+            if (!$dataHandler->checkModifyAccessList($table)) {
+                return 'no_permissions';
+            }
+
             $result = $dataHandler->process_datamap();
 
             if ($result === false) {

@@ -16,7 +16,7 @@ call_user_func(function (string $extensionName) {
     }
 
     if (\T3G\Hubspot\Utility\CompatibilityUtility::typo3VersionIsGreaterThanOrEqualTo('9')) {
-        $pageTs = '@import \'FILE:EXT:' . $extensionName . '/Configuration/TsConfig/Page/All.tsconfig\'';
+        $pageTs = '@import \'EXT:' . $extensionName . '/Configuration/TsConfig/Page/All.tsconfig\'';
     } else {
         $pageTs = '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extensionName . '/Configuration/TsConfig/Page/All.tsconfig">';
     }

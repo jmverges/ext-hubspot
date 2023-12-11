@@ -173,5 +173,11 @@ return [
                 'eval' => 'trim,required',
             ],
         ],
+        'version' => [
+            'exclude' => false,
+            'config' => [
+                'type' => 'passthrough',
+            ],
+        ],
     ],
 ];

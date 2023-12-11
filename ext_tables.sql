@@ -38,10 +38,38 @@ CREATE TABLE tx_hubspot_cta (
     hubspot_guid VARCHAR(36) DEFAULT '' NOT NULL,
 	name varchar(255) DEFAULT '' NOT NULL,
 	hubspot_cta_code text,
+	version tinyint(4) unsigned DEFAULT '1' NOT NULL,
 
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,
 	l10n_parent int(11) DEFAULT '0' NOT NULL,
 	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY language (l10n_parent,sys_language_uid),
+	KEY import_lookup_new (hubspot_guid, version),
+	KEY import_lookup_old (name, version)
+);
+
+#
+# Table structure for table 'tx_hubspot_cta_backup'
+#
+CREATE TABLE tx_hubspot_cta_backup (
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	starttime int(11) unsigned DEFAULT '0' NOT NULL,
+	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+
+    hubspot_updated_at bigint(14) unsigned DEFAULT '0' NOT NULL,
+    hubspot_guid VARCHAR(36) DEFAULT '' NOT NULL,
+	name varchar(255) DEFAULT '' NOT NULL,
+	hubspot_cta_code text,
+	version tinyint(4) unsigned DEFAULT '1' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY language (l10n_parent,sys_language_uid)

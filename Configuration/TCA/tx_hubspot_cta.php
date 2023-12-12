@@ -31,7 +31,7 @@ return [
         'iconfile' => 'EXT:hubspot/Resources/Public/Icons/tx_hubspot_cta.svg',
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, name, hubspot_cta_code',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, name, hubspot_cta_code, version',
     ],
     'palettes' => [
         'language' => [

@@ -82,6 +82,17 @@ class ImportCtaService
      */
     protected static function fetchCtaRecord(string $guid, string $name): ?array
     {
+        $searchedName = $name;
+        $possiblePrefix = 'Legacy CTA Migration: ';
+        if (strpos($searchedName, $possiblePrefix) === 0) {
+            // Prefix added by Hubspot when the old CTAs were migrated to the new format. If we detect this prefix, we
+            // remove it from the title matching: our *legacy* records do not contain this prefix and we need to search
+            // for a match in our DB that does *not* contain the prefix. However, new-format CTAs *may* be saved into
+            // the DB with the prefix (if removing it is accidentally forgotten in Hubspot's system) but this doesn't
+            // matter since we never do exact title matching against new-format CTAs (version=2).
+            $searchedName = substr($searchedName, strlen($possiblePrefix));
+        }
+
         $queryBuilder = static::createConnectionPool()->getQueryBuilderForTable('tx_hubspot_cta');
         $expression = $queryBuilder->expr();
         return $queryBuilder->select('uid', 'hubspot_updated_at', 'hubspot_guid', 'name', 'hubspot_cta_code', 'version')
@@ -96,7 +107,7 @@ class ImportCtaService
                     // Or a match for name and version flag of 1, meaning we look for a legacy CTA record in our DB so
                     // we can on-the-fly migrate it to the new format
                     $expression->andX(
-                        $expression->eq('name', $queryBuilder->createNamedParameter($name)),
+                        $expression->eq('name', $queryBuilder->createNamedParameter($searchedName)),
                         $expression->eq('version', 1)
                     )
                 )

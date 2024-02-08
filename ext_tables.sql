@@ -71,8 +71,7 @@ CREATE TABLE tx_hubspot_cta_backup (
 	hubspot_cta_code text,
 	version tinyint(4) unsigned DEFAULT '1' NOT NULL,
 
-	PRIMARY KEY (uid),
-	KEY language (l10n_parent,sys_language_uid)
+	PRIMARY KEY (uid)
 );
 
 #

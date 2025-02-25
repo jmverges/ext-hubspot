@@ -38,7 +38,9 @@ tt_content.hubspot_cta {
     }
 }
 
-page.includeJS.hubspot = EXT:hubspot/Resources/Public/JavaScript/Frontend/HubspotForms.js
+page.includeJS.hubspot_forms_lib = //js.hsforms.net/forms/v2.js
+page.includeJS.hubspot_forms_lib.external = 1
+page.includeJSFooter.hubspot_forms_init = EXT:hubspot/Resources/Public/JavaScript/Frontend/HubspotForms.js
 
 module.tx_hubspot {
     persistence {

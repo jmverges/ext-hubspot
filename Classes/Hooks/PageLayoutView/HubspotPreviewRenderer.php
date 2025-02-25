@@ -10,6 +10,7 @@ declare(strict_types = 1);
 
 namespace T3G\Hubspot\Hooks\PageLayoutView;
 
+use SevenShores\Hubspot\Exceptions\BadRequest;
 use T3G\Hubspot\Domain\Repository\Hubspot\FormRepository;
 use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
@@ -76,14 +77,18 @@ class HubspotPreviewRenderer implements PageLayoutViewDrawItemHookInterface
      */
     protected function renderHubspotFormPreview(string &$itemContent, array &$row)
     {
-        if (!empty($row['hubspot_guid'])) {
-            $hubspotFormRepository = GeneralUtility::makeInstance(FormRepository::class);
-            $form = $hubspotFormRepository->getFormForPreview($row['hubspot_guid']);
-            $itemContent .= '<p><strong>Hubspot Form:</strong> <br />' . $form['name'] . '</p>';
-            $fields = $this->getFormFieldLabels($form);
-            $itemContent .= '<p><strong>Fields:</strong> ' . implode(', ', $fields) . '</p>';
-        } else {
-            $itemContent .= '<div class="callout-warning">No form selected!</div>';
+        try {
+            if (!empty($row['hubspot_guid'])) {
+                $hubspotFormRepository = GeneralUtility::makeInstance(FormRepository::class);
+                $form = $hubspotFormRepository->getFormForPreview($row['hubspot_guid']);
+                $itemContent .= '<p><strong>Hubspot Form:</strong> <br />' . $form['name'] . '</p>';
+                $fields = $this->getFormFieldLabels($form);
+                $itemContent .= '<p><strong>Fields:</strong> ' . implode(', ', $fields) . '</p>';
+            } else {
+                $itemContent .= '<div class="callout-warning">No form selected!</div>';
+            }
+        } catch (BadRequest $exception) {
+            $itemContent .= '<div class="callout-warning">' . $exception->getMessage() . '</div>';
         }
     }
 

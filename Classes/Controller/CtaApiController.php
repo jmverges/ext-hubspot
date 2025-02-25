@@ -28,8 +28,8 @@ class CtaApiController
             $cta = [
                 $params['hubspot_updated_at'],
                 $params['hubspot_guid'],
-                rawurldecode($params['name']),
-                rawurldecode($params['hubspot_cta_code']),
+                $params['name'],
+                $params['hubspot_cta_code'],
             ];
 
             $action = ImportCtaService::importCta($cta, $overwrite);
